@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: test-component-yzmn
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: test-component-yzmn
+    app.kubernetes.io/part-of: test-app-hvvr
+  name: test-component-yzmn
+  namespace: build-e2e-hacbs-bbak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: test-component-yzmn
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: test-component-yzmn
+    spec:
+      containers:
+      - image: quay.io/xinjiang/test-images:920ff38f2f9741b298ba68190e82fbfb
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources: {}
+status: {}
